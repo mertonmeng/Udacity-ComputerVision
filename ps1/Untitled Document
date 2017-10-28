@@ -1,0 +1,11 @@
+    for i = 1:size(BW,1)
+      for j = 1:size(BW,2)
+        if BW(i,j) > 0
+          for k = 1:ntheta
+            a = theta(k);
+            r = int32(j*cos(a*pi/180) + i*sin(a*pi/180) + diagonal);
+            H(r,a + 91) = H(r,a + 91) + 1;
+          endfor
+        endif
+      endfor
+    endfor
