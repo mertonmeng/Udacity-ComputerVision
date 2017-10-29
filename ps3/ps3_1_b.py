@@ -23,7 +23,7 @@ for i in range(0,10):
     copyList2D = copy.copy(norm2DPtsAList)
     copyList3D = copy.copy(norm3DPtsList)
     randPts2D,randPts3D = lp.GetRandomPointArray(copyList2D, 16, copyList3D)
-    M = calib.NormCalibrate(randPts3D, randPts2D)
+    M = calib.SVDMSolver(randPts3D, randPts2D)
     restPts2D = np.array(copyList2D)
     restPts3D = np.array(copyList3D)
     residual = calc.GetResidual(restPts2D, M, restPts3D)

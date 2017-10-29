@@ -18,7 +18,7 @@ norm3DPtsList = norm3DPts.tolist()
 #rand2DPts,rand3DPts = lp.GetRandomPointArray(norm2DPtsAList, 8, norm3DPtsList)
 
 #M2 = test.svd_M_solver(norm2DPtsA, norm3DPts)
-M = calib.NormCalibrate(norm3DPts, norm2DPtsA)
+M = calib.SVDMSolver(norm3DPts, norm2DPtsA)
 residual = calc.GetResidual(norm2DPtsA, M, norm3DPts)
 
 Q = M[0:3,0:3]
