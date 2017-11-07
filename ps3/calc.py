@@ -15,3 +15,26 @@ def GetResidual(pts2D, M, pts3D):
     residual = np.array(residualList)
 
     return residual
+
+def Normalize2DPts(pts2D):
+
+    normPtsList = []
+
+    mean_u = np.mean(pts2D[:,0])
+    mean_v = np.mean(pts2D[:,1])
+    scale_factor = 1/np.max(np.abs(pts2D))
+
+    scale_mat = np.diag([scale_factor, scale_factor, 1])
+    offset_mat = np.diag([1, 1, 1])
+    offset_mat[0, 2] = -mean_u
+    offset_mat[1, 2] = -mean_v
+    T = np.dot(scale_mat, offset_mat)
+
+    for i in range(0, len(pts2D[:, 0])):
+        pointVec = np.array([pts2D[i , 0], pts2D[i , 1], 1], dtype=float)
+        normPts = np.dot(T, pointVec.T)
+        normPtsList.append([normPts[0], normPts[1]])
+
+    normPtsArr = np.array(normPtsList)
+
+    return normPtsArr,T

@@ -46,3 +46,30 @@ def LinearFfixer(rawF):
     D[D.shape[0] - 1, D.shape[1] - 1] = 0
     F = np.dot(U, np.dot(D, VTrans))
     return F
+
+def GetEpipolarLines(img, points2DArr, F):
+
+    lineList = []
+
+    ptTL = np.array([0,0,1], dtype=float)
+    ptTR = np.array([img.shape[1] - 1, 0, 1], dtype=float)
+    ptBL = np.array([0, img.shape[0] - 1, 1], dtype=float)
+    ptBR = np.array([img.shape[1] - 1, img.shape[0] - 1, 1], dtype=float)
+
+    lineL = np.cross(ptTL, ptBL)
+    lineR = np.cross(ptTR, ptBR)
+
+    print lineL
+    print lineR
+
+    for i in range(0, len(points2DArr[:, 0])):
+        pointVec = np.array([points2DArr[i , 0], points2DArr[i , 1], 1], dtype=float)
+        epiLineVec = np.dot(F, pointVec)
+        epiLinePtL = np.cross(epiLineVec, lineL)
+        epiLinePtR = np.cross(epiLineVec, lineR)
+        lineList.append([[epiLinePtL[0] / epiLinePtL[2], epiLinePtL[1] / epiLinePtL[2]],
+                         [epiLinePtR[0] / epiLinePtR[2], epiLinePtR[1] / epiLinePtR[2]]])
+
+    lineArr = np.array(lineList)
+
+    return lineArr
